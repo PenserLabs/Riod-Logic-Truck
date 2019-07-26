@@ -217,11 +217,21 @@ export default {
     // {"firstName":"Peter", "lastName":"Jones"}
     // ];
             let pdfName = 'Truck '+this.nid+' ('+this.date1+' to '+this.date2+')'; 
+            
             let doc = new jsPDF();
+            
+            let header = (data) => {
+                doc.setFontSize(18);
+                doc.setTextColor(40);
+                doc.setFontStyle('bold');
+                doc.text("TRUCK "+this.nid, data.settings.margin.left, 30);
+            };
+
             doc.autoTable(  
                 {   
                     columns: [{header: 'Serial No.', dataKey: 'SlNo'}, {header: 'Time', dataKey: 'Time'}, {header: 'Temperature (Celsius)', dataKey: 'Temperature'}],
-                    body: this.logs 
+                    body: this.logs,
+                    margin: {top: 40}, didDrawPage: header
                 }
             );
             doc.save(pdfName + '.pdf');
