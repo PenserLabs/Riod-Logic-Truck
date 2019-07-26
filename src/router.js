@@ -1,25 +1,59 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 import Home from './views/Home.vue'
+import Login from './views/Login.vue'
+import Truck from './views/Truck.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        guest: true
+      }
+    },
+    {
+      path: '/truck/:id',
+      name: 'truck',
+      component: Truck,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.auth) {
+      next('/login');
+    }
+    else {
+      next()
+    }
+  } else if(to.matched.some(record => record.meta.guest)) {
+    if (store.state.auth) {
+      next('/');
+    }
+    else {
+      next()
+    }
+  }
+})
+
+export default router
