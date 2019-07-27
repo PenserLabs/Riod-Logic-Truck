@@ -6,7 +6,7 @@ import store from './store'
 import axios from 'axios'
 import JsonExcel from 'vue-json-excel'
 
-axios.defaults.baseURL = 'https://riod-temp-logs.herokuapp.com'
+axios.defaults.baseURL = 'http://34.93.220.99'
 
 Vue.component('downloadExcel', JsonExcel)
 
