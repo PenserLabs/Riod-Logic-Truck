@@ -94,7 +94,6 @@
                     class="text-xs-right ma-3"
                 >
                 <v-btn
-                    large
                 >
                     <v-icon class="mr-2">mdi-folder-download</v-icon>
                     Export as Excel
@@ -105,7 +104,6 @@
             <v-flex xs6>
                 <div class="ma-3 text-xs-left">
                     <v-btn
-                    large
                     @click="createPDF"
                     v-if="tableFlag"
                 >
