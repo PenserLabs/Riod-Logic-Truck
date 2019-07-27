@@ -1,6 +1,8 @@
 <template>
-    <v-container>
-        <v-layout row wrap>
+    <v-container fluid>
+        <v-img height="760" :src="require('../assets/img2.jpg')">
+            <v-container>
+            <v-layout row wrap>
             <v-flex xs12 class="text-xs-center ma-2">
                 <form @submit.prevent="login">
                     <v-layout row wrap>
@@ -8,7 +10,7 @@
                             <v-text-field
                                 solo
                                 label="Username"
-                                prepend-icon="mdi-account"
+                                prepend-inner-icon="mdi-account"
                                 v-model="access"
                                 required
                             ></v-text-field>
@@ -17,7 +19,7 @@
                             <v-text-field
                                 solo
                                 label="Password"
-                                prepend-icon="mdi-lock"
+                                prepend-inner-icon="mdi-lock"
                                 v-model="key"
                                 type="password"
                                 required
@@ -38,6 +40,9 @@
                 </form>
             </v-flex>  
         </v-layout>
+        </v-container>
+        </v-img>
+        
     </v-container>
 </template>
 
@@ -72,3 +77,4 @@ export default {
     } 
 }
 </script>
+
