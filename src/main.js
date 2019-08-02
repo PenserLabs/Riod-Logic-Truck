@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import JsonExcel from 'vue-json-excel'
+import './registerServiceWorker'
 
 axios.defaults.baseURL = 'http://34.93.220.99'
 
