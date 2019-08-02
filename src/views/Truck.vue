@@ -209,12 +209,7 @@ export default {
                 })
         },
         createPDF () {
-    //         var employees = [
-    // {"firstName":"John", "lastName":"Doe"}, 
-    // {"firstName":"Anna", "lastName":"Smith"},
-    // {"firstName":"Peter", "lastName":"Jones"}
-    // ];
-            // let pdfName = 'Truck '+this.nid+' ('+this.date1+' to '+this.date2+')'; 
+            let pdfName = 'Truck '+this.nid+' ('+this.date1+' to '+this.date2+')'; 
             
             let doc = new jsPDF();
             
@@ -232,9 +227,7 @@ export default {
                     margin: {top: 40}, didDrawPage: header
                 }
             );
-            // doc.save(pdfName + '.pdf');
-            console.log(doc.output('arraybuffer'));
-            // doc.output('bloburi');
+            doc.save(pdfName + '.pdf');
         }
     }
 }
