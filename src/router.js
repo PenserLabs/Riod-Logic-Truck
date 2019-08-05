@@ -4,6 +4,7 @@ import store from './store'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Truck from './views/Truck.vue'
+import Settings from './views/Settings.vue'
 
 Vue.use(Router)
 
@@ -31,6 +32,14 @@ const router = new Router({
       path: '/truck/:id',
       name: 'truck',
       component: Truck,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
       meta: {
         requiresAuth: true
       }

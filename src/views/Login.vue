@@ -55,12 +55,18 @@ export default {
             key: '',
             ar6t87w1: 'admin',
             qa34g3aa: 'qwerty123',
+            qgv4c3bi: 'user',
+            g234sd43: 'qwerty123',
             error: ''
         }
     },
     methods: {
         login () {
             if ((this.access == this.ar6t87w1) && (this.key == this.qa34g3aa)) {
+                this.$store.commit('superLogin');   
+                localStorage.riodAdminToken = true;
+                this.$router.push('/');
+            } else if ((this.access == this.qgv4c3bi) && (this.key == this.g234sd43)){
                 this.$store.commit('login');
                 localStorage.riodToken = true;
                 this.$router.push('/');
@@ -72,6 +78,9 @@ export default {
     mounted () {
         if(localStorage.riodToken) {
             this.$store.commit('login');
+            this.$router.push('/');
+        } else if(localStorage.riodAdminToken) {
+            this.$store.commit('superLogin');
             this.$router.push('/');
         }
     } 

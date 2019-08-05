@@ -9,17 +9,27 @@
       <v-btn
         flat
         icon
-        v-if="$store.state.auth"
-        @click="logout"
+        v-if="$store.state.admin"
+        to="/settings"
       >
-        <v-icon>mdi-logout</v-icon>
+        <v-icon>mdi-settings</v-icon>
       </v-btn>
+      
       <v-btn
         flat
         icon
         to="/"
       >
         <v-icon>mdi-home</v-icon>
+      </v-btn>
+
+      <v-btn
+        flat
+        icon
+        v-if="$store.state.auth"
+        @click="logout"
+      >
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -42,6 +52,7 @@ export default {
     logout() {
       this.$store.commit('logout');
       localStorage.removeItem('riodToken');
+      localStorage.removeItem('riodAdminToken');
       this.$router.go();
     } 
   }
