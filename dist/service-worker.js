@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.df62216a34c242b08fb3187df7c7b188.js"
+  "/precache-manifest.f58db17292ab2a5b67ca883abd79f755.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "riod-temp-panel"});

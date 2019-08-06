@@ -133,6 +133,7 @@ export default {
             tableFlag: false,
             loading: false,
             error: false,
+            offsetTemp: '',
             logs: [{
                 SlNo: '',
                 Time: '',
@@ -152,6 +153,18 @@ export default {
         }
     },
     methods: {
+        start () {
+            axios
+                .get('/truck/settings')
+                .then( (response) => {
+                    this.error =false;
+
+                    this.offsetTemp = response.data.offset;
+                })
+                .catch( () => {
+                    this.error = true;
+                })
+        },
         getLogs() {
             this.loading = true;
 
@@ -192,7 +205,7 @@ export default {
                         let date = response.data[i].ts;
                         tempLog.SlNo = i + 1;
                         tempLog.Time = new Date(+date).toString().substring(0,25);
-                        tempLog.Temperature = response.data[i].temp;
+                        tempLog.Temperature = parseFloat(response.data[i].temp)  + parseInt(this.offsetTemp);
 
 
                         this.$set(this.logs, i, tempLog);
@@ -229,6 +242,9 @@ export default {
             );
             doc.save(pdfName + '.pdf');
         }
+    },
+    mounted() {
+        this.start();
     }
 }
 </script>
