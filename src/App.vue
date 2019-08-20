@@ -2,8 +2,9 @@
   <v-app>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>RIOD</span>
-        <span class="font-weight-light">LOGIC</span>
+        <v-toolbar-side-icon><v-img :src="require('@/assets/freezr.png')" contain height="30"></v-img></v-toolbar-side-icon>
+        <span>FREEZR</span>
+        <!-- <span class="font-weight-light"></span> -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn

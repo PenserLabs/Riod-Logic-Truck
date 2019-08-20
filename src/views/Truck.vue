@@ -133,7 +133,7 @@ export default {
             tableFlag: false,
             loading: false,
             error: false,
-            offsetTemp: '',
+            // offsetTemp: '',
             logs: [{
                 SlNo: '',
                 Time: '',
@@ -156,10 +156,10 @@ export default {
         start () {
             axios
                 .get('/truck/settings')
-                .then( (response) => {
+                .then( () => {
                     this.error =false;
 
-                    this.offsetTemp = response.data.offset;
+                    // this.offsetTemp = response.data.offset;
                 })
                 .catch( () => {
                     this.error = true;
@@ -205,7 +205,7 @@ export default {
                         let date = response.data[i].ts;
                         tempLog.SlNo = i + 1;
                         tempLog.Time = new Date(+date).toString().substring(0,25);
-                        tempLog.Temperature = parseFloat(response.data[i].temp)  + parseInt(this.offsetTemp);
+                        tempLog.Temperature = parseFloat(response.data[i].temp);
 
 
                         this.$set(this.logs, i, tempLog);

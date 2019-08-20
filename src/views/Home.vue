@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
-    <v-img :src="require('../assets/img2.jpg')">
+    <v-img height="670" :src="require('../assets/img2.jpg')">
     <v-container>
       <v-layout row wrap>
-      <v-flex xs6 sm4 md3 v-for="n in 40" v-bind:key="n">
+      <v-flex xs6 sm4 md3 v-for="n in 7" v-bind:key="n">
         <v-card class="ma-2 pa-4 text-xs-center">
           <v-btn 
             :to="'/truck/'+n"

@@ -1,6 +1,6 @@
 {
-  "name": "riod-temp-panel",
-  "short_name": "riod-temp-panel",
+  "name": "Freezr | Fleet Monitoring and Management",
+  "short_name": "Freezr",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -15,6 +15,6 @@
   ],
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#34ebb1",
-  "theme_color": "#34ebb1"
+  "background_color": "#D3F0FF",
+  "theme_color": "#D3F0FF"
 }
