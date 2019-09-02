@@ -9,7 +9,7 @@
             <v-icon left>mdi-truck</v-icon>
             {{ nid }}
         </v-chip>
-        <v-layout row wrap>
+        <v-layout row wrap class="mb-5">
             <v-flex xs12 sm6 md4>
                 <v-menu
                     v-model="menu1"
@@ -56,9 +56,12 @@
                     <v-date-picker v-model="date2" @input="menu2 = false" :min="date1"></v-date-picker>
                 </v-menu>
             </v-flex>
-            <v-flex xs12 md4 class="text-xs-center">
+            <v-flex xs12 md4 class="text-xs-center ">
                 <v-btn class="text-xs-center" @click="getLogs" :loading="loading">Get Logs</v-btn>
             </v-flex>
+            <!-- <v-flex xs12 offset-md4 md4 class="text-xs-center">
+                <v-select v-model="displaySelect" label="Display as" :items="display"></v-select>
+            </v-flex> -->
         </v-layout>
 
         <div>
@@ -69,13 +72,16 @@
                 Could not find any data for the specified dates.
             </v-alert>
         </div>
+
+        <Plotly v-if="tableFlag" :data="data" :layout="layout" :displayModeBar="true"/>
+
         <v-data-table
             v-if="tableFlag"
             :headers="headers"
             :items="logs"
             :rows-per-page-items="rowsPerPageItems"
             :pagination.sync="pagination"
-            class="elevation-1 my-3"
+            class="elevation-1 my-5"
         >
             <template slot="items" slot-scope="props">
                 <td class="text-xs-left">{{ props.item.SlNo }}</td>
@@ -121,8 +127,12 @@
 import axios from 'axios'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import { Plotly } from 'vue-plotly'
 
 export default {
+    components: {
+        Plotly
+    },
     data() {
         return {
             nid: this.$route.params.id,
@@ -150,6 +160,21 @@ export default {
             pagination: {
                             rowsPerPage: 10
                         },
+            layout: {
+                plot_bgcolor: '#FAFAFA',
+                paper_bgcolor: '#FAFAFA',
+                title: 'Temperature in Celsius'
+            },
+            data: [
+                    {
+                        x: [],
+                        y: [],
+                        type: 'scatter'
+                    }
+            ],
+            xaxis: [],
+            yaxis: [],
+            display: ['Graph', 'Table']    
         }
     },
     methods: {
@@ -192,6 +217,8 @@ export default {
                 .get('/truck/logs/' + this.nid + '/' + this.from + '/' + this.to)
                 .then( (response) => {
                     this.error = false;
+                    this.xaxis = [];
+                    this.yaxis = [];
 
                     for(let i=0; i<response.data.length; i++){
 
@@ -207,15 +234,24 @@ export default {
                         tempLog.Time = new Date(+date).toString().substring(0,25);
                         tempLog.Temperature = parseFloat(response.data[i].temp);
 
-
                         this.$set(this.logs, i, tempLog);
+                        this.$set(this.xaxis, i, tempLog.Time);
+                        this.$set(this.yaxis, i, tempLog.Temperature);
                         this.tableFlag = true;
                         
                     }
 
+                    let plotObject = {
+                        x: this.xaxis,
+                        y: this.yaxis,
+                        type: 'scatter'
+                    }
+
+                    this.$set(this.data, 0, plotObject);
                     this.loading = false;
                 })
                 .catch( () => {
+                    this.data = [];
                     this.tableFlag = false;
                     this.loading = false;
                     this.error = true;
