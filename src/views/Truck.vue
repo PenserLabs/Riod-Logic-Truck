@@ -10,7 +10,7 @@
             {{ nid }}
         </v-chip>
         
-        <v-btn flat icon color="primary" @click="offsetDialog=true"><v-icon>mdi-settings-outline</v-icon></v-btn>
+        <v-btn flat icon color="primary" v-if="$store.state.admin" @click="offsetDialog=true"><v-icon>mdi-settings-outline</v-icon></v-btn>
         
         <v-layout row wrap class="mb-5">
             <v-flex xs12 sm6 md4>
