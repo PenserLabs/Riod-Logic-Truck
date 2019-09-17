@@ -7,14 +7,6 @@
         <!-- <span class="font-weight-light"></span> -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        flat
-        icon
-        v-if="$store.state.admin"
-        to="/settings"
-      >
-        <v-icon>mdi-settings</v-icon>
-      </v-btn>
       
       <v-btn
         flat

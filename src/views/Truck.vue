@@ -9,6 +9,9 @@
             <v-icon left>mdi-truck</v-icon>
             {{ nid }}
         </v-chip>
+        
+        <v-btn flat icon color="primary" @click="offsetDialog=true"><v-icon>mdi-settings-outline</v-icon></v-btn>
+        
         <v-layout row wrap class="mb-5">
             <v-flex xs12 sm6 md4>
                 <v-menu
@@ -120,6 +123,63 @@
             </v-flex>
         </v-layout>
 
+        <v-dialog 
+            v-model="offsetDialog"
+            max-width="330"    
+        >
+            <v-card>
+                <v-layout row wrap class="text-xs-center">
+                        <v-flex xs12>
+                            <div class="title mt-4">
+                                Temperature Offset  (Celsius)
+                            </div>
+                        </v-flex>
+                        <v-flex xs12 sm6 offset-sm3>
+                            <v-select
+                                :items="offsetSelect"
+                                label="Offset"
+                                solo
+                                class="pa-4"
+                                v-model="offset"
+                            ></v-select>
+                        </v-flex>
+                        <v-flex xs12 sm6 offset-sm3>
+                            <v-btn 
+                                color="primary" 
+                                class="mb-4"
+                                :loading="tempLoading"
+                                @click="updateOffset"
+                            >
+                                Update
+                            </v-btn>  
+                        </v-flex>
+                        <v-flex xs12>
+                            <div class="title">
+                                Temperature Interval  (Minutes)
+                            </div>
+                        </v-flex>
+                        <v-flex xs12 sm6 offset-sm3>
+                            <v-select
+                                :items="intervalSelect"
+                                label="Interval"
+                                solo
+                                class="pa-4"
+                                v-model="interval"
+                            ></v-select>
+                        </v-flex>
+                        <v-flex xs12 sm6 offset-sm3>
+                            <v-btn 
+                                color="primary" 
+                                class="mb-4"
+                                :loading="timeLoading"
+                                @click="updateInterval"
+                            >
+                                Update
+                            </v-btn>  
+                        </v-flex>
+                    </v-layout>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -143,6 +203,13 @@ export default {
             tableFlag: false,
             loading: false,
             error: false,
+            offsetDialog: false,
+            tempLoading: false,
+            timeLoading: false,
+            offset: '',
+            interval: '',
+            offsetSelect: ['0','-4', '-5', '-6', '-7'],
+            intervalSelect: ['5','10', '30', '60', '120'],
             // offsetTemp: '',
             logs: [{
                 SlNo: '',
@@ -180,10 +247,11 @@ export default {
     methods: {
         start () {
             axios
-                .get('/truck/settings')
-                .then( () => {
-                    this.error =false;
-
+                .get('/truck/settings/'+this.nid)
+                .then( (response) => {
+                    this.error = false;
+                    this.offset = response.data.offset;
+                    this.interval = response.data.interval;
                     // this.offsetTemp = response.data.offset;
                 })
                 .catch( () => {
@@ -277,6 +345,38 @@ export default {
                 }
             );
             doc.save(pdfName + '.pdf');
+        },
+        updateInterval () {
+            this.timeLoading = true;
+            this.error = false
+            axios
+                .post('/truck/editinterval', {
+                    interval: this.interval,
+                    nid: this.nid
+                })
+                .then( () => {
+                    this.timeLoading = false;
+                })
+                .catch( () => {
+                    this.error = true;
+                    this.timeLoading =  false;
+                })
+        },
+        updateOffset () {
+            this.tempLoading = true;
+            this.error = false
+            axios
+                .post('/truck/editoffset', {
+                    offset: this.offset,
+                    nid: this.nid
+                })
+                .then( () => {
+                    this.tempLoading = false;
+                })
+                .catch( () => {
+                    this.error = true;
+                    this.tempLoading =  false;
+                })
         }
     },
     mounted() {
